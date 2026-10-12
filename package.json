@@ -2,7 +2,7 @@
   "name": "tank-duel",
   "version": "1.0.0",
   "private": true,
-  "description": "同じキーボードで遊ぶ二人対戦の戦車ゲーム",
+  "description": "1台のスマホ・タブレットを挟んで向かい合う、タッチ操作の戦車対戦ゲーム",
   "scripts": {
     "start": "node scripts/serve.js",
     "test": "node --test --test-isolation=none test/engine.test.js",

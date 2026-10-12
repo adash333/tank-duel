@@ -6,7 +6,93 @@
 @media(prefers-reduced-motion:reduce){.primary:hover{transform:none}}
 /* Each pad owns its pointer, allowing both players to move and fire together. */
 .touch-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px}.joystick{position:relative;width:108px;height:108px;flex-shrink:0;border:1px solid #647846;border-radius:50%;background:radial-gradient(circle,#35462b 0,#24301f 70%);touch-action:none;user-select:none;-webkit-user-select:none}.joystick::before,.joystick::after{content:'';position:absolute;background:#9cad7726;left:50%;top:14%;width:1px;height:72%}.joystick::after{transform:rotate(90deg)}.pad-cross{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#687e47;font-size:48px;font-weight:400}.stick{position:absolute;z-index:1;left:calc(50% - 21px);top:calc(50% - 21px);width:42px;height:42px;border-radius:50%;border:2px solid #b3d582;background:#8fab62;box-shadow:0 5px 10px #0005;pointer-events:none}.joystick.active .stick{background:var(--green)}.p2 .joystick{border-color:#926644;background:radial-gradient(circle,#473327 0,#312820 70%)}.p2 .stick{background:#af7d55;border-color:#e3a67a}.p2 .joystick.active .stick{background:var(--orange)}.p2 .pad-cross{color:#97704f}.fire-button{width:78px;height:78px;border-radius:50%;border:2px solid #799850;background:#304124;color:var(--green);font-size:30px;display:flex;flex-direction:column;justify-content:center;align-items:center;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 5px 0 #121b0e;flex-shrink:0;padding:0}.fire-button span{font-size:10px;line-height:1}.fire-button.pressed{background:#b6e370;color:#233219;box-shadow:0 1px 0 #121b0e}.p2 .fire-button{background:#473225;border-color:#9e6d47;color:var(--orange)}.p2 .fire-button.pressed{background:var(--orange);color:#3d2417}.touch-instruction{font-size:11px;line-height:1.8;color:#d0d7c5;flex:1}.touch-instruction small{font-size:9px;color:var(--muted)}.tools button{min-width:32px;min-height:36px}.below-arena,.game-shell{-webkit-user-select:none;user-select:none}button[hidden]{display:none!important}
-body.play-focus .topbar,body.play-focus .intro,body.play-focus .settings,body.play-focus .keyboard-note,body.play-focus footer{display:none}body.play-focus main{max-width:1200px;padding:8px}body.play-focus .game-shell{margin:0 auto;max-width:min(100%,calc((100dvh - 240px)*1.777 + 24px))}body.play-focus .below-arena{max-width:1000px;margin:8px auto 0}body.play-focus .controls-card{padding:10px 16px}body.play-focus .touch-row{margin-top:8px}
 @media(max-width:650px){.below-arena{grid-template-columns:1fr 1fr;gap:8px}.controls-card{padding:10px 8px}.touch-row{gap:8px;justify-content:center;margin-top:12px}.joystick{width:84px;height:84px}.stick{width:34px;height:34px;left:calc(50% - 17px);top:calc(50% - 17px)}.fire-button{width:56px;height:56px;font-size:24px}.fire-button span{font-size:9px}.touch-instruction,.tag{display:none}.card-label{font-size:8px;letter-spacing:.5px}.arena-info .divider,.arena-info>span:last-child{display:none}.tools{gap:7px}.top-note{font-size:7px}body.play-focus .controls-card{padding:8px}.overlay-hint{display:none}}
 @media(max-width:360px){.joystick{width:73px;height:73px}.fire-button{width:48px;height:48px}.touch-row{gap:6px}.controls-card{padding:8px 5px}}
-@media(orientation:landscape) and (max-height:600px){.topbar{height:46px}.intro{padding:14px 0}.intro h1{font-size:23px;margin-bottom:5px}.intro .eyebrow{margin-bottom:5px}.mode-badge{display:none}.game-shell{max-width:720px;margin:0 auto}.scoreboard{height:56px}.below-arena{max-width:720px;margin:10px auto;gap:12px}.joystick{width:84px;height:84px}.fire-button{width:64px;height:64px}.controls-card{padding:10px 14px}.touch-row{margin-top:8px}.settings,.keyboard-note,footer{display:none}body.play-focus main{height:100dvh;display:grid;grid-template-columns:minmax(0,1fr) 185px;gap:8px;align-items:center}body.play-focus .game-shell{width:100%;max-width:calc((100dvh - 112px)*1.777 + 24px)}body.play-focus .below-arena{display:grid;grid-template-columns:1fr;width:185px;margin:0;height:100%;gap:7px;align-content:center}body.play-focus .controls-card{padding:7px}body.play-focus .touch-row{gap:10px}body.play-focus .touch-instruction{display:none}body.play-focus .joystick{width:85px;height:85px}body.play-focus .fire-button{width:58px;height:58px}body.play-focus .scoreboard{height:52px}body.play-focus .player-score{min-width:0;gap:8px}body.play-focus .wins{display:none}body.play-focus .player-number{font-size:21px}body.play-focus .round-display strong{font-size:22px}body.play-focus .player-score strong{font-size:9px}body.play-focus .arena-toolbar{height:40px;padding:0 10px}body.play-focus .arena-info{font-size:8px}body.play-focus .tools button span{display:none}body.play-focus .tools{gap:7px}body.play-focus .overlay-card{padding:15px 25px;min-width:0}body.play-focus .overlay h2{font-size:24px}body.play-focus .overlay-card>p:not(.eyebrow):not(.overlay-hint){font-size:10px;margin-bottom:12px}body.play-focus .overlay-hint{display:none}body.play-focus .primary{padding:10px 17px;min-width:210px}}
+/* Tabletop play: each player sits at their own edge of the same screen. */
+.tabletop{display:flex;flex-direction:column;align-items:center;gap:12px;margin:20px 0;min-width:0;--tabletop-reserve:416px}
+.tabletop>.controls-card{width:100%;max-width:760px;padding:10px 18px;flex-shrink:0;text-align:left;touch-action:none}
+#controls-0{transform:rotate(180deg)}
+.tabletop .touch-row{margin-top:8px;gap:20px}
+.tabletop .joystick{width:96px;height:96px}
+.tabletop .fire-button{width:76px;height:76px}
+.tabletop .touch-instruction{display:block;font-size:12px}
+.card-label{min-height:18px;flex-wrap:nowrap}
+.seat-label{font-size:9px;letter-spacing:0;color:var(--muted);font-weight:400}
+.panel-state{display:flex;align-items:center;gap:14px;margin-left:auto}
+.panel-state .health{margin:0}
+.panel-state .health i{width:18px}
+.panel-state .wins{display:flex;margin:0}
+.panel-state .wins i{width:7px;height:7px}
+.panel-state .wins i.filled{border-color:var(--green);background:var(--green)}
+.p2 .panel-state .wins i.filled{border-color:var(--orange);background:var(--orange)}
+.p2 .panel-state .health{justify-content:flex-start}
+.tabletop .game-shell{width:100%;max-width:960px;flex-shrink:0}
+.tabletop .scoreboard{height:44px;justify-content:center;gap:70px;padding:0 12px}
+.opponent-clock{transform:rotate(180deg)}
+.tabletop .round-display{display:flex;align-items:center;gap:12px}
+.tabletop .round-display>span{font-size:8px;margin:0}
+.tabletop .round-display strong{font-size:24px}
+.tabletop .round-display strong span{font-size:8px}
+.tabletop .overlay-card{min-width:0;padding:20px 28px}
+.tabletop .overlay h2{font-size:28px}
+.tabletop .overlay-card>p:not(.eyebrow):not(.overlay-hint){font-size:11px;margin-bottom:16px}
+.tabletop .overlay.countdown h2{font-size:76px}
+body.play-focus .topbar,body.play-focus .intro,body.play-focus .settings,body.play-focus .keyboard-note,body.play-focus footer{display:none}
+body.play-focus main{width:100%;max-width:1200px;height:100dvh;padding:8px;margin:auto}
+body.play-focus .tabletop{height:100%;margin:0;justify-content:space-between;gap:8px}
+body.play-focus .tabletop .game-shell{max-width:min(100%,calc((100dvh - var(--tabletop-reserve))*1.777 + 26px))}
+@media(max-width:650px){
+  .tabletop{--tabletop-reserve:356px}
+  .tabletop>.controls-card{padding:8px 12px}
+  .tabletop .touch-row{margin-top:6px;gap:12px}
+  .tabletop .joystick{width:82px;height:82px}
+  .tabletop .fire-button{width:64px;height:64px}
+  .tabletop .touch-instruction{font-size:10px}
+  .tabletop .touch-instruction small{font-size:8px}
+  .card-label{font-size:8px;gap:6px}
+  .seat-label{font-size:8px}
+  .panel-state{gap:8px}
+  .panel-state .health{gap:3px}
+  .panel-state .health i{width:12px}
+  .panel-state .wins{gap:4px}
+  .panel-state .wins i{width:6px;height:6px}
+  .tabletop .scoreboard{height:36px;gap:28px}
+  .tabletop .round-display{gap:6px}
+  .tabletop .round-display>span{font-size:6px;letter-spacing:1px}
+  .tabletop .round-display strong{font-size:21px}
+  .tabletop .overlay-card{padding:12px 16px}
+  .tabletop .overlay h2{font-size:22px;margin-bottom:8px}
+  .tabletop .overlay-card .eyebrow{font-size:7px;margin-bottom:8px}
+  .tabletop .overlay-card>p:not(.eyebrow):not(.overlay-hint){font-size:9px;margin-bottom:12px;line-height:1.6}
+  .tabletop .primary{min-width:200px;padding:10px 14px}
+  .tabletop .overlay.countdown h2{font-size:60px}
+}
+@media(max-height:500px) and (orientation:landscape){
+  .tabletop{--tabletop-reserve:264px;gap:6px}
+  .tabletop>.controls-card{padding:5px 12px;max-width:680px}
+  .tabletop .touch-row{margin-top:2px;gap:16px}
+  .tabletop .joystick{width:56px;height:56px}
+  .tabletop .stick{width:28px;height:28px;left:calc(50% - 14px);top:calc(50% - 14px)}
+  .tabletop .fire-button{width:52px;height:52px;font-size:22px}
+  .tabletop .touch-instruction{font-size:10px}
+  .tabletop .touch-instruction small{font-size:8px}
+  .tabletop .scoreboard{height:28px;gap:24px}
+  .tabletop .round-display{gap:5px}
+  .tabletop .round-display strong{font-size:18px}
+  .tabletop .round-display>span{font-size:6px;letter-spacing:.5px}
+  .tabletop .arena-toolbar{height:32px;padding:0 8px}
+  .tabletop .tools{gap:6px}
+  .tabletop .tools button{min-height:28px}
+  .tabletop .tools button span,.tabletop .arena-info .divider,.tabletop .arena-info>span:last-child{display:none}
+  .tabletop .arena-info{font-size:8px;gap:6px}
+  .tabletop .overlay-card{padding:8px 14px}
+  .tabletop .overlay-card .eyebrow{display:none}
+  .tabletop .overlay h2{font-size:19px;margin:0 0 6px}
+  .tabletop .overlay-card>p:not(.eyebrow):not(.overlay-hint){font-size:8px;margin-bottom:8px;line-height:1.4}
+  .tabletop .overlay-hint{display:none}
+  .tabletop .primary{min-width:180px;padding:8px 12px;font-size:10px}
+  .tabletop .overlay.countdown h2{font-size:50px}
+  body.play-focus main{padding:4px 8px}
+  body.play-focus .tabletop{gap:6px}
+}
+@media(max-width:360px){.seat-label{display:none}.tabletop>.controls-card{padding:8px}.tabletop .touch-instruction{font-size:9px}}

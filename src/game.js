@@ -25,6 +25,7 @@
   }
   document.querySelectorAll('.joystick').forEach(pad => {
     const id = Number(pad.dataset.player), stick = pad.querySelector('.stick');
+    const viewSign = pad.closest('.controls-card').dataset.rotation === '180' ? -1 : 1;
     let pointer = null;
     const clear = () => { pointer = null; touch[id].moveX = 0; touch[id].moveY = 0; stick.style.transform = ''; pad.classList.remove('active'); };
     touchCleanups.push(clear);
@@ -34,7 +35,9 @@
       const distance = Math.hypot(x,y);
       if(distance>radius){x=x/distance*radius;y=y/distance*radius;}
       touch[id].moveX = x / radius; touch[id].moveY = y / radius;
-      stick.style.transform = `translate(${x}px, ${y}px)`;
+      // Pointer coordinates already match the battlefield. Only the knob's
+      // local transform is inverted inside the rotated top player's panel.
+      stick.style.transform = `translate(${x * viewSign}px, ${y * viewSign}px)`;
     }
     pad.addEventListener('pointerdown', event => {
       if(pointer!==null || paused || !['playing','countdown'].includes(game.phase))return;
@@ -102,14 +105,16 @@
   });
   document.addEventListener('keyup', event => keys.delete(event.code));
   window.addEventListener('blur', () => { keys.clear(); pause(true); });
+  window.addEventListener('resize', clearInput);
   document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); pause(true); } });
   $('start-button').addEventListener('click', () => paused ? pause(false) : start());
   $('pause-button').addEventListener('click', () => { pause(); document.activeElement?.blur(); });
   $('reset-button').addEventListener('click', () => reset());
   $('focus-button').addEventListener('click', () => {
+    clearInput();
     const focus = document.body.classList.toggle('play-focus');
     $('focus-button').setAttribute('aria-pressed', String(focus));
-    $('focus-button').innerHTML = focus ? '⛶ <span>元に戻す</span>' : '⛶ <span>画面を広げる</span>';
+    $('focus-button').innerHTML = focus ? '⛶ <span>設定を開く</span>' : '⛶ <span>対面プレイに戻る</span>';
     if(focus) window.scrollTo(0,0);
   });
   $('sound-button').addEventListener('click', () => {
@@ -134,6 +139,8 @@
     if (signature === uiKey) return; uiKey = signature;
     $('timer').innerHTML = `${String(Math.ceil(game.remaining)).padStart(2,'0')}<span>SEC</span>`;
     $('round-label').textContent = game.phase === 'ready' ? 'READY TO DUEL' : `ROUND ${String(game.round).padStart(2,'0')}`;
+    $('timer-opponent').innerHTML = $('timer').innerHTML;
+    $('round-label-opponent').textContent = $('round-label').textContent;
     $('map-label').textContent = MAPS[game.map].label;
     for (let id = 0; id < 2; id++) {
       $('health-' + id).innerHTML = [0,1,2].map(i => `<i class="${i >= game.tanks[id].hp ? 'empty' : ''}"></i>`).join('');
@@ -153,7 +160,7 @@
       $('start-button').innerHTML = '対戦を再開する <span>↗</span>';
     } else if (game.phase === 'ready') {
       $('overlay-kicker').textContent = 'THE ARENA IS YOURS'; $('overlay-title').textContent = '準備はいい？';
-      $('overlay-description').innerHTML = '3ラウンド先取で勝利。<br>画面の左右を分け合って、いざ勝負。';
+      $('overlay-description').innerHTML = '端末を間に置いて向かい合おう。<br>上側が1P、下側が2P。3ラウンド先取で勝利。';
       $('start-button').innerHTML = '対戦をはじめる <span>↗</span>';
     } else if (game.phase === 'countdown') {
       overlay.classList.add('countdown'); $('overlay-kicker').textContent = `ROUND ${game.round}`;
@@ -187,7 +194,9 @@
     ctx.fillStyle = '#28301e'; ctx.fillRect(28,-3,5,6);
     ctx.restore();
     ctx.fillStyle = colors[tank.id]; ctx.font = 'bold 10px "Space Grotesk", sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(`${tank.id + 1}P`,tank.x,tank.y - 33);
+    ctx.save(); ctx.translate(tank.x, tank.y + (tank.id === 0 ? 33 : -33));
+    if (tank.id === 0) ctx.rotate(Math.PI);
+    ctx.fillText(`${tank.id + 1}P`,0,0); ctx.restore();
     ctx.fillStyle = '#172010'; ctx.fillRect(tank.x - 15,tank.y + 29,30,3);
     ctx.fillStyle = colors[tank.id]; ctx.fillRect(tank.x - 15,tank.y + 29,30 * (1 - tank.cooldown / .55),3);
   }
@@ -202,7 +211,7 @@
     ctx.fillStyle = '#cad79914'; speckles.forEach(s => ctx.fillRect(s.x,s.y,s.s,s.s));
     ctx.strokeStyle = '#76875e'; ctx.lineWidth = 2; ctx.strokeRect(12,12,WIDTH-24,HEIGHT-24);
     ctx.strokeStyle = '#76875e45'; ctx.setLineDash([6,9]); ctx.beginPath(); ctx.moveTo(WIDTH/2,25); ctx.lineTo(WIDTH/2,HEIGHT-25); ctx.stroke(); ctx.setLineDash([]);
-    for (const [x,y] of [[110,270],[850,270]]) { ctx.strokeStyle = '#a3b77a22'; ctx.beginPath(); ctx.arc(x,y,52,0,Math.PI*2); ctx.stroke(); }
+    for (const [x,y] of [[480,65],[480,475]]) { ctx.strokeStyle = '#a3b77a22'; ctx.beginPath(); ctx.arc(x,y,36,0,Math.PI*2); ctx.stroke(); }
     ctx.font = '9px monospace'; ctx.fillStyle = '#a0b57b77'; ctx.textAlign = 'left'; ctx.fillText('SECTOR 01 / ' + MAPS[game.map].label, 29, 34); ctx.textAlign = 'right'; ctx.fillText('960 × 540',WIDTH-29,HEIGHT-27);
     for (const b of game.blocks) {
       ctx.fillStyle = '#15201055'; ctx.fillRect(b.x+5,b.y+6,b.w,b.h);

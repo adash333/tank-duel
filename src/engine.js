@@ -34,8 +34,8 @@
     resetArena() {
       this.blocks = MAPS[this.map].blocks.map(([x, y, w, h, type], id) => ({ x, y, w, h, type, id, hp: type === 'brick' ? 2 : Infinity }));
       this.tanks = [
-        { x: 110, y: 270, angle: 0, hp: 3, cooldown: 0, id: 0 },
-        { x: 850, y: 270, angle: Math.PI, hp: 3, cooldown: 0, id: 1 }
+        { x: 480, y: 65, angle: Math.PI / 2, hp: 3, cooldown: 0, id: 0 },
+        { x: 480, y: 475, angle: -Math.PI / 2, hp: 3, cooldown: 0, id: 1 }
       ];
       this.bullets = []; this.remaining = 60; this.winner = null; this.roundWinner = null;
     }
