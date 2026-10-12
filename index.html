@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#151b19">
+  <meta name="description" content="ひとつの画面、ふたつの戦車。スマホ・タブレットのブラウザで遊べる二人対戦ゲーム。">
+  <title>TANK DUEL — 二人対戦</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="src/engine.js"></script>
+  <script defer src="src/game.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="TANK DUEL ホーム"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 14h20v13H6zM10 9h12v12H10zM15 2h3v14H15z"/><path d="M3 14h4v13H3zM25 14h4v13h-4z"/></svg>TANK<span>DUEL</span></a>
+    <div class="top-note"><span class="status-dot"></span> LOCAL MULTIPLAYER <span class="version">/ 01</span></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">ONE SCREEN. TWO TANKS.</p><h1>ふたりで、<span>一騎打ち。</span></h1><p class="lead">スマホ・タブレットで、画面をタッチして対戦。</p></div>
+      <div class="mode-badge"><span>02</span><div>PLAYERS<br><small>ひとつの画面で対戦</small></div></div>
+    </section>
+    <section class="game-shell" aria-label="戦車対戦ゲーム">
+      <div class="scoreboard">
+        <div class="player-score p1"><span class="player-number">01</span><div><strong>PLAYER 1</strong><div class="health" id="health-0" aria-label="1Pの耐久力"></div></div><div class="wins" id="wins-0" aria-label="1Pの勝利数"></div></div>
+        <div class="round-display"><span id="round-label">READY TO DUEL</span><strong id="timer">60<span>SEC</span></strong></div>
+        <div class="player-score p2"><div class="wins" id="wins-1" aria-label="2Pの勝利数"></div><div><strong>PLAYER 2</strong><div class="health" id="health-1" aria-label="2Pの耐久力"></div></div><span class="player-number">02</span></div>
+      </div>
+      <div class="battlefield">
+        <canvas id="arena" width="960" height="540" aria-label="戦場。下の移動パッドと砲撃ボタンで操作。"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card" id="overlay-card">
+            <p class="eyebrow" id="overlay-kicker">THE ARENA IS YOURS</p>
+            <h2 id="overlay-title">準備はいい？</h2>
+            <p id="overlay-description">3ラウンド先取で勝利。<br>画面の左右を分け合って、いざ勝負。</p>
+            <button class="primary" id="start-button">対戦をはじめる <span>↗</span></button>
+            <p class="overlay-hint" id="overlay-hint">左のパッドが1P <span>vs</span> 右のパッドが2P</p>
+          </div>
+        </div>
+        <div id="announcement" aria-live="polite" class="sr-only"></div>
+      </div>
+      <div class="arena-toolbar">
+        <div class="arena-info"><span class="status-dot"></span><span id="map-label">DEPOT</span><span class="divider">/</span><span>3ラウンド先取</span></div>
+        <div class="tools"><button id="sound-button" aria-label="効果音の切り替え" aria-pressed="false">♪ <span>音 OFF</span></button><button id="pause-button" disabled aria-label="一時停止・再開">Ⅱ <span>一時停止</span></button><button id="focus-button" aria-label="プレイ画面を広げる" aria-pressed="false">⛶ <span>画面を広げる</span></button><button id="reset-button" aria-label="最初からやり直す">↻ <span>リセット</span></button></div>
+      </div>
+    </section>
+    <section class="below-arena" aria-label="二人用タッチ操作パネル">
+      <div class="controls-card p1"><div class="card-label"><span class="status-dot"></span> PLAYER 1 <span class="tag">GREEN</span></div><div class="touch-row"><div class="joystick" data-player="0" aria-label="1P移動パッド。指を動かした方向へ移動"><span class="pad-cross">＋</span><span class="stick"></span></div><span class="touch-instruction">指で移動<br><small>向いた方向へ砲撃</small></span><button class="fire-button" data-player="0" aria-label="1P砲撃。長押しで連射">◎<span>砲撃</span></button></div></div>
+      <div class="controls-card p2"><div class="card-label"><span class="status-dot"></span> PLAYER 2 <span class="tag">ORANGE</span></div><div class="touch-row"><div class="joystick" data-player="1" aria-label="2P移動パッド。指を動かした方向へ移動"><span class="pad-cross">＋</span><span class="stick"></span></div><span class="touch-instruction">指で移動<br><small>長押しで連射</small></span><button class="fire-button" data-player="1" aria-label="2P砲撃。長押しで連射">◎<span>砲撃</span></button></div></div>
+    </section>
+    <section class="settings">
+      <div class="map-setting"><span class="section-label">戦場を選ぶ</span><div class="map-options" role="group" aria-label="戦場の選択"><button class="selected" data-map="depot" aria-pressed="true">01 <span>補給基地</span></button><button data-map="crossfire" aria-pressed="false">02 <span>交差戦線</span></button><button data-map="courtyard" aria-pressed="false">03 <span>中庭</span></button></div></div>
+      <div class="rules"><span class="section-label">FIELD NOTES</span><p><i class="brick-swatch"></i>レンガは2発で破壊 <i class="steel-swatch"></i>金属壁で1回反射</p><p>耐久力は3発分。60秒後は残り耐久力で勝敗判定。</p></div>
+    </section>
+    <p class="keyboard-note">1台の端末を二人で操作。移動パッドをドラッグし、砲撃ボタンを長押しで連射。スマホは横向きがおすすめです。</p>
+  </main>
+  <footer><span>TANK DUEL</span><span>ふたりの時間を、戦場に。</span><span>LOCAL PLAY · NO SIGN-UP</span></footer>
+</body>
+</html>
