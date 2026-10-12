@@ -69,3 +69,9 @@ npm run build
 - `scripts/build.js`：静的配信用ファイルの生成
 
 オンライン通信対戦ではなく、同じ端末での対戦です。PCではWASD＋Space（代替F）、矢印キー＋Enter（代替右Shift）の補助操作も利用できます。
+
+## 作業記録
+
+依頼の原文と結果は `docs/prompt/` に保存します。同日の同じ一連の流れは一つのファイルにまとめます。
+
+このリポジトリでは [AGENTS.md](AGENTS.md) の指示に従い、対応終了前に [/save-prompt スキル](.agents/skills/save-prompt/SKILL.md) を自動実行し、記録を含むすべての変更をmainへ反映します。
